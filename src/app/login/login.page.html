@@ -4,7 +4,14 @@
     <div class="container">
 
       <img src="../../assets/icon/junktion.png">
+<div class="container">
+      <ion-button
+        class="backbtn"
+        routerLink="/home"
+        routerDirection="back"><ion-icon
+          name="arrow-back-outline"></ion-icon></ion-button>
 
+    </div>
     </div>
     <div class="button-container">
       <div class="input">
@@ -22,6 +29,17 @@
       <ion-button size="large" class="joinbtn" expand="block" fill="clear"
         expand="block" (click)="login()"
         routerDirection="forward">login</ion-button>
+
+        <div class="sign-up">
+        You don't have an account?
+        <ion-button
+          color="dark"
+          fill="clear"
+          routerLink="/register"
+          routerDirection="forward"
+          >Register</ion-button
+        >
+      </div>
 
     </div>
   </div>
