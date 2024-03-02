@@ -1,0 +1,56 @@
+
+<ion-content class="background">
+  <div >
+    <div class="container">
+      <ion-button
+        class="backbtn"
+        routerLink="/home"
+        routerDirection="back"><ion-icon
+          name="arrow-back-outline"></ion-icon></ion-button>
+
+    </div>
+    <div class="button-container">
+      <div class="input">
+        <ion-input id="custom-input" label="Name" [(ngModel)]="newUser.name" labelPlacement="floating"
+          color="danger"></ion-input>
+      </div>
+      
+      <div class="input">
+        <ion-input id="custom-input" label="Last Name" [(ngModel)]="newUser.lastname" labelPlacement="floating"
+          color="danger"></ion-input>
+      </div>
+
+       <div class="input">
+        <ion-input id="custom-input" label="UserName" [(ngModel)]="newUser.username" labelPlacement="floating"
+          color="danger"></ion-input>
+      </div> 
+      <div class="input">
+        <ion-input id="custom-input" label="Email"  [(ngModel)]="newUser.email" labelPlacement="floating"
+          color="danger"></ion-input>
+      </div>
+      <div class="input">
+        <ion-input type="password" id="custom-input" label="password" [(ngModel)]="newUser.password"
+          labelPlacement="floating" color="danger"></ion-input>
+      </div>
+      <div class="input">
+        <ion-input id="custom-input" label="repeat password" [(ngModel)]="newUser.repeat_password" labelPlacement="floating"
+          color="danger"></ion-input>
+      </div>
+
+      <ion-button size="large" class="joinbtn" expand="block" fill="clear" (click)="register()"
+        expand="block" >register</ion-button>
+
+    </div>
+    <div class="sign-up">
+        already have an account?
+        <ion-button
+          color="dark"
+          fill="clear"
+          routerLink="/login"
+          routerDirection="forward"
+          >Log in</ion-button
+        >
+      </div>
+  </div>
+
+</ion-content>

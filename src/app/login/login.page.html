@@ -1,0 +1,29 @@
+
+<ion-content>
+  <div class="background">
+    <div class="container">
+
+      <img src="../../assets/icon/junktion.png">
+
+    </div>
+    <div class="button-container">
+      <div class="input">
+        <ion-input id="custom-input" label="E-mail/Username"
+          labelPlacement="floating" color="danger"
+          [(ngModel)]="User.email"></ion-input>
+      </div>
+
+      <div class="input">
+        <ion-input type="password" id="custom-input" label="password"
+          labelPlacement="floating" color="danger"
+          [(ngModel)]="User.password"></ion-input>
+      </div>
+
+      <ion-button size="large" class="joinbtn" expand="block" fill="clear"
+        expand="block" (click)="login()"
+        routerDirection="forward">login</ion-button>
+
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "junktion",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

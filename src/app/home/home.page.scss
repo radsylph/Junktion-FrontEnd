@@ -1,0 +1,73 @@
+.background{
+  background: #FFFFFF;
+  height: 100%;
+}
+
+.container{
+  height: 90%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+
+
+.button-container{
+  width: 100%;
+  padding: 22px;
+}
+
+ion-button.loginbtn{
+  --background:#FFFFFF;
+  color: #000000;
+  --border-radius: 25px;
+  border-width: 2px;
+  --border-color: #000;
+  --border-style: solid;
+  --border-width: 1px;
+}
+
+ion-button.joinbtn{
+  background-color:#F4511C;
+  color: #FFFFFF;
+  border-radius: 25px;
+}
+
+
+ion-input{
+  --background: none;
+  margin-bottom: 20px;
+}
+
+.block1 {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block2 {
+  width: 100%;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+ion-list{
+  height: 100%;
+  width: 100%;
+}
+
+ion-item{
+  width: auto;
+}
+
+ion-input{
+  margin-top: 20px;
+}
