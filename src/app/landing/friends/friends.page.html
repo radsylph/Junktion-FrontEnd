@@ -1,4 +1,32 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+          <ion-grid>
+                <ion-row>
+                  <ion-col class="header" >FRIEND REQUESTS</ion-col>
 
-    <ion-title>Header</ion-title>
+                  <ion-col class="header" size="2"><ion-button  color="dark" fill="clear" routerLink="../../search" routerDirection="forward"><ion-icon size="large" name="search-circle"></ion-icon></ion-button></ion-col>
+                  <ion-col class="header" size="2"><ion-button  color="dark" fill="clear" routerLink="../../create" routerDirection="forward"><ion-icon size="large" name="add-circle"></ion-icon></ion-button></ion-col>     
+          </ion-row>
+          </ion-grid>
+    </ion-toolbar>
+</ion-header>
 
-
+<ion-content>
+    <ion-list>
+      <ion-item *ngFor="let item of items; let index">
+        <ion-avatar slot="start">
+          <img class="avatar_user" [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
+        </ion-avatar>
+        <ion-label>{{ item }}</ion-label>
+        <ion-button color="success">
+            <ion-icon size="large" name="checkbox"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear">
+            <ion-icon color="warning" size="large"name="close-circle-Outline"></ion-icon>
+          </ion-button>
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-content>
