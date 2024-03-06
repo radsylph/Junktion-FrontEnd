@@ -7,6 +7,7 @@ import {
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+
 @Injectable()
 export class UserServices {
     constructor(private http: HttpClient) { }
@@ -26,21 +27,101 @@ export class UserServices {
     private BackenUrl: string = 'http://localhost:7338'; //cambiar por la url en despliegue luego.
 
     createUser(newUser: UserInterface) {
-        return this.http.post(`${this.BackenUrl}/users/create`, newUser).pipe(
-            catchError((error) => {
-                console.log(error);
-                return throwError(error);
-            })
-        );
+
+        try {
+            return this.http.post(`${this.BackenUrl}/users/create`, newUser).toPromise().then((res: any) => {
+                return res;
+            });
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     }
 
     loginUser(existingUser: existingUser) {
-        return this.http.post(`${this.BackenUrl}/users/login`, existingUser).pipe(
-            catchError((error) => {
-                console.log(error);
-                return throwError(error);
+        try {
+            return this.http.post(`${this.BackenUrl}/users/login`, existingUser).toPromise().then((res: any) => {
+                return res;
+            }
+            );
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+
+    }
+
+    getUserInfo(token: string) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.get(`${this.BackenUrl}/users/getUser`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                return res;
             })
-        );
+
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+
+    }
+
+    createPost(post: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.post(`${this.BackenUrl}/publications/create`, post, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                return res;
+            })
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+
+    }
+
+    getFeedPosts(token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/get`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+
+    }
+
+    likePost(postId: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        console.log("token:", token)
+        console.log("postId:", postId)
+        try {
+            return this.http.patch(`${this.BackenUrl}/publications/like/${postId}`, {}, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                return res;
+            }
+            )
+        } catch (error) {
+            return error;
+        }
     }
 
 }
