@@ -1,0 +1,17 @@
+ion-segment-button {
+    --indicator-color: #F4511C;
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #fff;
+    --color-checked: #F4511C;
+    --indicator-height: 4px;
+  }
+
+  ion-col.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }

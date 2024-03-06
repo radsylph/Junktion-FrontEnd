@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar>
+    <ion-searchbar color="light" [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
+    <ion-buttom slot="end" routerLink="../landing/feed" routerDirection="forward">
+      <ion-icon class="backbtn" color="dark" size="large"  name="close-circle-Outline"></ion-icon>
+    </ion-buttom>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment value="people">
+      <ion-segment-button value="people">
+        <ion-label>people</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="post">
+        <ion-label>post</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let result of results">
+      <ion-avatar slot="start">
+        <img src="https://picsum.photos/80/80?random=2" alt="avatar" />
+      </ion-avatar>
+      <ion-label>{{ result }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
