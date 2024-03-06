@@ -21,8 +21,9 @@ export class UserServices {
         profilePicture: 'image.png',
     };
 
-    private BackenUrl: string =
-        'https://junktionbackend-production.up.railway.app';
+    // private BackenUrl: string =
+    //     'https://junktionbackend-production.up.railway.app';
+    private BackenUrl: string = 'http://localhost:7338'; //cambiar por la url en despliegue luego.
 
     createUser(newUser: UserInterface) {
         return this.http.post(`${this.BackenUrl}/users/create`, newUser).pipe(
