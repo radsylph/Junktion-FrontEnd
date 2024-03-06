@@ -1,10 +1,11 @@
 ion-tab-bar {
-    bottom: 20px;
-    position: relative;
-    border-radius: 16px;
-    width: 92%;
-    margin: 0 auto;
-  }
+  bottom: 20px;
+  position: relative;
+  border-radius: 16px;
+  width: 92%;
+  margin: 0 auto;
+  
+}
   
   ion-tab-button {
     --color: #fff;
@@ -23,3 +24,10 @@ ion-tab-bar {
       background-color: #F4511C;
     }
   }
+
+  img.avatar_user{
+    margin-top: 10px;
+    height: 35px;
+    width: auto;
+}
+
