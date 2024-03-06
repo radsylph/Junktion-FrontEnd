@@ -89,27 +89,26 @@ export class RegisterPage implements OnInit {
       await alert.present();
       return;
     }
-
     console.log(this.newUser);
+    try {
+      const createUser = await this.user.createUser(this.newUser);
+      console.log(createUser);
+      const alert = await this.alert.create({
+        header: 'Success',
+        message: 'User registered successfully',
+        buttons: ['OK']
+      });
+      await alert.present();
+      this.nav.navigateRoot('/login');
 
-    this.user.createUser(this.newUser).subscribe(
-      async (res: any) => {
-        const alert = await this.alert.create({
-          header: 'Success',
-          message: 'User registered successfully',
-          buttons: ['OK']
-        });
-        await alert.present();
-        this.nav.navigateRoot('/login');
-      },
-      async (err: any) => {
-        const alert = await this.alert.create({
-          header: 'Error',
-          message: err.error.message,
-          buttons: ['OK']
-        });
-        await alert.present();
-      }
-    );
+    } catch (error: any) {
+      console.log(error);
+      const alert = await this.alert.create({
+        header: 'Error',
+        message: error.message,
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
   }
 }
