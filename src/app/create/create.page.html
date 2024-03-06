@@ -1,0 +1,82 @@
+<ion-header [translucent]="true">
+      <ion-toolbar>
+            <ion-title>create</ion-title>
+            <ion-buttom slot="end" routerLink="../landing/feed"
+                  routerDirection="forward">
+                  <ion-icon class="backbtn" color="dark" size="large"
+                        name="close-circle-Outline"></ion-icon>
+            </ion-buttom>
+
+      </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+      <ion-row class="wrapper">
+            <ion-col size="2">
+                  <ion-avatar>
+                        <img class="avatar" alt="Silhouette of a person's head"
+                              src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                  </ion-avatar>
+            </ion-col>
+            <ion-col size="10">
+                  <ion-row class="info">
+                        <ion-col size="12">
+                              <ion-textarea color="dark"
+                                    aria-label="Custom textarea"
+                                    placeholder="Title"
+                                    class="custom"
+                                    [autoGrow]="true"
+                                    [counter]="true"
+                                    [(ngModel)]="createPost.title"
+                                    [maxlength]="100"></ion-textarea>
+
+                        </ion-col>
+                  </ion-row>
+            </ion-col>
+      </ion-row>
+      <ion-textarea color="dark"
+            aria-label="Custom textarea"
+            placeholder="Type something here"
+            class="custom"
+            [autoGrow]="true"
+            [counter]="true"
+            [(ngModel)]="createPost.content"
+            [maxlength]="400"></ion-textarea>
+
+      <swiper-container class="imgpost">
+            <swiper-slide>
+                  <img src="../../../assets/meme/meme1.jpg" alt>
+            </swiper-slide>
+            <swiper-slide>
+                  <img src="../../../assets/meme/meme2.jpg" alt>
+            </swiper-slide>
+            <swiper-slide>
+                  <img src="../../../assets/meme/meme3.jpg" alt>
+            </swiper-slide>
+            <swiper-slide>
+                  <img src="../../../assets/meme/meme4.jpg" alt>
+            </swiper-slide>
+            <swiper-slide>
+                  <img src="../../../assets/meme/meme5.jpg" alt>
+            </swiper-slide>
+            <swiper-slide>
+                  <img src="../../../assets/meme/meme6.jpg" alt>
+            </swiper-slide> <swiper-slide>
+                  <img src="../../../assets/meme/meme7.jpg" alt>
+            </swiper-slide> <swiper-slide>
+                  <img src="../../../assets/meme/meme8.jpg" alt>
+            </swiper-slide>
+      </swiper-container>
+      <ion-fab vertical="bottom" horizontal="end">
+            <ion-fab-button color="danger" class="photo">
+                  <ion-icon size="large" name="camera"></ion-icon>
+            </ion-fab-button>
+      </ion-fab>
+      <ion-fab vertical="bottom" horizontal="start">
+            <ion-fab-button color="primary" (click)="createNewPost()">
+                  <ion-icon size="large" name="add"></ion-icon>
+            </ion-fab-button>
+      </ion-fab>
+
+</ion-content>
