@@ -110,8 +110,6 @@ export class UserServices {
             console.log("no hay token");
             return;
         }
-        console.log("token:", token)
-        console.log("postId:", postId)
         try {
             return this.http.patch(`${this.BackenUrl}/publications/like/${postId}`, {}, {
                 headers: { Authorization: `Bearer ${token}` },
