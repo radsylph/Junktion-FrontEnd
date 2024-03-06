@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { UserServices } from '../services/user.service';
+import { Preferences } from '@capacitor/preferences';
 
 import { existingUser } from '../interfaces/user.interface';
 
@@ -26,12 +27,31 @@ export class LoginPage implements OnInit {
   }
 
 
-
   ngOnInit() {
+    //this.getToken();
     this.User = {
       email: "",
       password: ""
     };
+  }
+
+  async setToken(token: string, ownerSession: string) {
+    await Preferences.set({
+      key: 'token',
+      value: token,
+    });
+    await Preferences.set({
+      key: 'ownerSession',
+      value: ownerSession,
+    });
+    this.nav.navigateForward('/landing/feed');
+  }
+
+  async getToken() {
+    const token = await Preferences.get({ key: 'token' });
+    if (token.value) {
+      this.nav.navigateForward('/landing/feed');
+    }
   }
 
   async login() {
@@ -46,25 +66,26 @@ export class LoginPage implements OnInit {
       await alert.present();
       return;
     }
-    this.user.loginUser(this.User).subscribe(
-      async (res: any) => {
-        const alert = await this.alert.create({
-          header: 'Success',
-          message: 'User registered successfully',
-          buttons: ['OK']
-        });
-        await alert.present();
-        this.nav.navigateForward('/landing/feed');
-      },
-      async (err: any) => {
-        const alert = await this.alert.create({
-          header: 'Error',
-          message: err.error.message,
-          buttons: ['OK']
-        });
-        await alert.present();
-      }
-    );
+    try {
+      const loginUser: any = await this.user.loginUser(this.User);
+      const alert = await this.alert.create({
+        header: 'Success',
+        message: 'User registered successfully',
+        buttons: ['OK']
+      });
+      await alert.present();
+      console.log(loginUser)
+      await this.setToken(loginUser.token, loginUser.user._id);
+    } catch (error: any) {
+      console.log(error);
+      const alert = await this.alert.create({
+        header: 'Error',
+        message: error.error.message,
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
+
   }
 
 }
