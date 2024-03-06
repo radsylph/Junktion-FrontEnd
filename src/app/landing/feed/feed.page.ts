@@ -68,12 +68,18 @@ export class FeedPage implements OnInit {
     }, 2000);
   }
 
-  async giveLike(postId: string, token: string) {
+  async giveLike(postId: string, token: string, postLikes: any) {
     console.log("like");
     console.log(this.token);
+
     try {
-      const like = await this.user.likePost(postId, token);
-      console.log(like);
+      const like: any = await this.user.likePost(postId, token);
+      console.log(like)
+      if (like.code == 201) {
+        postLikes.likes++;
+      } else {
+        postLikes.likes--;
+      }
       return like;
     } catch (error) {
       console.log(error);

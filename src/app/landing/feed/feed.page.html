@@ -109,7 +109,7 @@
           <ion-col>
             <ion-button
               fill="clear"
-              (click)="giveLike(Publication._id, this.token)"
+              (click)="giveLike(Publication._id, this.token, Publication)"
             >
               <ion-icon class="action" name="heart-outline"></ion-icon>
               <span id="likes">{{Publication.likes}}</span>
