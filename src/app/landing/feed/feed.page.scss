@@ -1,3 +1,67 @@
+
+
+
 ion-card{
     border-radius: 20px;
 }
+
+
+swiper-slide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img.img_swiper{
+    max-height: 250px;
+}
+
+ion-card-subtitle{
+    color: #fff;
+}
+
+.info{
+    font-size: 0.9em;
+}
+
+.name{
+    font-size: 15px;
+    color: #fff;
+}
+
+.handle{
+    padding-left: 4px;
+    color: #afafaf;
+}
+
+img.avatar{
+    height: 50px;
+    width: auto;
+}
+
+img.avatar_user{
+    height: 30px;
+    width: auto;
+}
+
+ion-icon.action{
+    color: #fff;
+}
+
+ion-segment-button {
+    --indicator-color: #F4511C;
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #fff;
+    --color-checked: #F4511C;
+    --indicator-height: 4px;
+  }
+
+  ion-col.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
