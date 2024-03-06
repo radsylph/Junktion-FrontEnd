@@ -1,72 +1,76 @@
 <ion-header [translucent]="true">
-      <ion-toolbar>
-            <ion-grid>
-                  <ion-row>
-                        <ion-col class="header">THE JUNKTION</ion-col>
-
-                        <ion-col class="header" size="2"><ion-button
-                                    color="dark" fill="clear"
-                                    routerLink="../../search"
-                                    routerDirection="forward"><ion-icon
-                                          size="large"
-                                          name="search-circle"></ion-icon></ion-button></ion-col>
-                        <ion-col class="header" size="2"><ion-button
-                                    color="dark" fill="clear"
-                                    routerLink="../../create"
-                                    routerDirection="forward"><ion-icon
-                                          size="large"
-                                          name="add-circle"></ion-icon></ion-button></ion-col>
-                  </ion-row>
-            </ion-grid>
-            <ion-segment value="discober">
-                  <ion-segment-button value="discober">
-                        <ion-label>Discober</ion-label>
-                  </ion-segment-button>
-                  <ion-segment-button value="friends">
-                        <ion-label>friends</ion-label>
-                  </ion-segment-button>
-                  <ion-segment-button value="bookmark">
-                        <ion-icon name="pricetag"></ion-icon>
-                  </ion-segment-button>
-            </ion-segment>
-      </ion-toolbar>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="header">THE JUNKTION</ion-col>
+        <ion-col class="header" size="2"
+          ><ion-button
+            color="dark"
+            fill="clear"
+            routerLink="../../search"
+            routerDirection="forward"
+            ><ion-icon size="large" name="search-circle"></ion-icon></ion-button
+        ></ion-col>
+        <ion-col class="header" size="2"
+          ><ion-button
+            color="dark"
+            fill="clear"
+            routerLink="../../create"
+            routerDirection="forward"
+            ><ion-icon size="large" name="add-circle"></ion-icon></ion-button
+        ></ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-segment value="discober">
+      <ion-segment-button value="discober">
+        <ion-label>Discober</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="friends">
+        <ion-label>friends</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="bookmark">
+        <ion-icon name="pricetag"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-      <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-            <ion-refresher-content></ion-refresher-content>
-      </ion-refresher>
-
-      <ion-card>
-            <ion-card-header>
-
-                  <ion-row class="wrapper">
-                        <ion-col size="2">
-                              <ion-avatar>
-                                    <img class="avatar"
-                                          alt="Silhouette of a person's head"
-                                          src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                              </ion-avatar>
-                        </ion-col>
-                        <ion-col size="10">
-                              <ion-row class="info">
-                                    <ion-col size="12">
-                                          <span
-                                                class="name">asdasdadsasdasda</span>
-                                          <span class="handle">XX/XX/XXXX</span>
-                                    </ion-col>
-                              </ion-row>
-                        </ion-col>
-                  </ion-row>
-
-            </ion-card-header>
-            <ion-card-content>
-                  <ion-card-subtitle>NOW SINGIN!!.
-                        BLING-BANG-BANG,BLING-BANG-BANG,BLING-BANG-BANG-BORN</ion-card-subtitle>
-            </ion-card-content>
-
-            <ion-card-content>
-                  <swiper-container class="imgpost">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-card *ngFor="let Publication of Publications">
+      <ion-card-header>
+        <ion-row class="wrapper">
+          <ion-col size="2">
+            <ion-avatar>
+              <img
+                class="avatar"
+                alt="Silhouette of a person's head"
+                src="https://ionicframework.com/docs/img/demos/avatar.svg"
+              />
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="10">
+            <ion-row class="info">
+              <ion-col size="12">
+                <span class="name">{{Publication.owner.name}}</span>
+                <span class="handle">{{"@" + Publication.owner.username}}</span>
+                <span>
+                  Created at: {{Publication.createdAt | date:'short'}}</span
+                >
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-card-title>{{Publication.title}}</ion-card-title>
+        <ion-card-subtitle>{{Publication.content}}</ion-card-subtitle>
+      </ion-card-content>
+      <ion-card-content>
+        <!-- <swiper-container class="imgpost">
                         <swiper-slide>
                               <img class="img_swiper"
                                     src="../../../assets/meme/meme1.jpg" alt>
@@ -98,123 +102,45 @@
                                     src="../../../assets/meme/meme8.jpg" alt>
                         </swiper-slide>
 
-                  </swiper-container>
-            </ion-card-content>
-            <ion-grid>
-                  <ion-row>
-                        <ion-col><ion-button fill="clear"><ion-icon
-                                          class="action"
-                                          name="heart-outline"></ion-icon></ion-button></ion-col>
-                        <ion-col><ion-button fill="clear"><ion-icon
-                                          class="action"
-                                          name="chatbubble-outline"></ion-icon></ion-button></ion-col>
-                        <ion-col><ion-button fill="clear"><ion-icon
-                                          class="action"
-                                          name="pricetag-outline"></ion-icon></ion-button></ion-col>
-                        <ion-col><ion-button fill="clear"
-                                    id="open-action-sheet"><ion-icon
-                                          class="action"
-                                          name="ellipsis-horizontal-outline"></ion-icon>
-                              </ion-button>
-                              <ion-action-sheet
-                                    trigger="open-action-sheet"
-                                    class="my-custom-class"
-                                    header="Option post"
-                                    subHeader
-                                    [buttons]="actionSheetButtons"></ion-action-sheet>
-                        </ion-col>
-                  </ion-row>
-            </ion-grid>
-      </ion-card>
-
-      <ion-card>
-            <ion-card-header>
-
-                  <ion-row class="wrapper">
-                        <ion-col size="2">
-                              <ion-avatar>
-                                    <img class="avatar"
-                                          alt="Silhouette of a person's head"
-                                          src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                              </ion-avatar>
-                        </ion-col>
-                        <ion-col size="10">
-                              <ion-row class="info">
-                                    <ion-col size="12">
-                                          <span
-                                                class="name">asdasdadsasdasda</span>
-                                          <span class="handle">XX/XX/XXXX</span>
-                                    </ion-col>
-                              </ion-row>
-                        </ion-col>
-                  </ion-row>
-
-            </ion-card-header>
-            <ion-card-content>
-                  <ion-card-subtitle>NOW SINGIN!!.
-                        BLING-BANG-BANG,BLING-BANG-BANG,BLING-BANG-BANG-BORN</ion-card-subtitle>
-            </ion-card-content>
-
-            <ion-card-content>
-                  <swiper-container class="imgpost">
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme1.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme2.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme3.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme4.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme5.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme6.jpg" alt>
-                        </swiper-slide> <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme7.jpg" alt>
-                        </swiper-slide> <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme8.jpg" alt>
-                        </swiper-slide>
-
-                  </swiper-container>
-            </ion-card-content>
-            <ion-grid>
-                  <ion-row>
-                        <ion-col><ion-button fill="clear"><ion-icon
-                                          class="action"
-                                          name="heart-outline"></ion-icon></ion-button></ion-col>
-                        <ion-col><ion-button fill="clear"><ion-icon
-                                          class="action"
-                                          name="chatbubble-outline"></ion-icon></ion-button></ion-col>
-                        <ion-col><ion-button fill="clear"><ion-icon
-                                          class="action"
-                                          name="pricetag-outline"></ion-icon></ion-button></ion-col>
-                        <ion-col><ion-button fill="clear"
-                                    id="open-action-sheet"><ion-icon
-                                          class="action"
-                                          name="ellipsis-horizontal-outline"></ion-icon>
-                              </ion-button>
-                              <ion-action-sheet
-                                    trigger="open-action-sheet"
-                                    class="my-custom-class"
-                                    header="Option post"
-                                    subHeader
-                                    [buttons]="actionSheetButtons"></ion-action-sheet>
-                        </ion-col>
-                  </ion-row>
-            </ion-grid>
-      </ion-card>
-
+                  </swiper-container> -->
+      </ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              fill="clear"
+              (click)="giveLike(Publication._id, this.token)"
+            >
+              <ion-icon class="action" name="heart-outline"></ion-icon>
+              <span id="likes">{{Publication.likes}}</span>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill="clear"
+              ><ion-icon
+                class="action"
+                name="chatbubble-outline"
+              ></ion-icon></ion-button
+          ></ion-col>
+          <ion-col
+            ><ion-button fill="clear"
+              ><ion-icon
+                class="action"
+                name="pricetag-outline"
+              ></ion-icon></ion-button
+          ></ion-col>
+          <ion-col
+            *ngIf="ownerSession === Publication.owner._id"
+            (click)="publicationOptions(Publication._id)"
+            ><ion-button fill="clear" id="open-action-sheet"
+              ><ion-icon
+                class="action"
+                name="ellipsis-horizontal-outline"
+              ></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </ion-list>
 </ion-content>
