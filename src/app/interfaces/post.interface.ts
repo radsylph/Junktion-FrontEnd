@@ -18,6 +18,5 @@ export interface PostInterface {
     comments: number;
     createdAt: string;
     updatedAt: string;
-    Isliked: boolean;
-
+    isLiked?: boolean;
 }
