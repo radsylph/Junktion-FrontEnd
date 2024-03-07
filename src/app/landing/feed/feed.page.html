@@ -69,41 +69,7 @@
         <ion-card-title>{{Publication.title}}</ion-card-title>
         <ion-card-subtitle>{{Publication.content}}</ion-card-subtitle>
       </ion-card-content>
-      <ion-card-content>
-        <!-- <swiper-container class="imgpost">
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme1.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme2.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme3.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme4.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme5.jpg" alt>
-                        </swiper-slide>
-                        <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme6.jpg" alt>
-                        </swiper-slide> <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme7.jpg" alt>
-                        </swiper-slide> <swiper-slide>
-                              <img class="img_swiper"
-                                    src="../../../assets/meme/meme8.jpg" alt>
-                        </swiper-slide>
-
-                  </swiper-container> -->
-      </ion-card-content>
+      <ion-card-content> </ion-card-content>
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -111,7 +77,13 @@
               fill="clear"
               (click)="giveLike(Publication._id, this.token, Publication)"
             >
-              <ion-icon class="action" name="heart-outline"></ion-icon>
+              <ion-icon
+                *ngIf="Publication.isLiked; else notLikedIcon"
+                name="heart"
+              ></ion-icon>
+              <ng-template #notLikedIcon>
+                <ion-icon name="heart-outline"></ion-icon>
+              </ng-template>
               <span id="likes">{{Publication.likes}}</span>
             </ion-button>
           </ion-col>
