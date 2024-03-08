@@ -7,6 +7,7 @@ export interface PostInterface {
         name: string;
         password: string;
         username: string;
+        profilePicture: string;
         _id: string;
     };
     title: string;

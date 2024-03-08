@@ -5,7 +5,7 @@ export interface UserInterface {
     email: string;
     password: string;
     repeat_password: string;
-    profilePicture: string;
+    profilePicture?: string;
 }
 
 export interface existingUser {
