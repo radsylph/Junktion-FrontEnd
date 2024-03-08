@@ -1,18 +1,22 @@
 <ion-tabs>
-  <ion-tab-bar slot="button" >
-    <ion-tab-button tab="feed" >
+  <ion-tab-bar slot="button">
+    <ion-tab-button tab="feed">
       <ion-icon name="home"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button tab="friends" >
+    <ion-tab-button tab="friends">
       <ion-icon name="person"></ion-icon>
       <ion-badge slot="end">22</ion-badge>
     </ion-tab-button>
     <ion-tab-button tab="friendly">
-      <ion-button fill="clear">
+      <ion-tab-button tab="friends">
+        <ion-icon name="settings-outline"></ion-icon>
+        <ion-badge slot="end">22</ion-badge>
+      </ion-tab-button>
+      <!-- <ion-button fill="clear">
         <ion-avatar>
-      <img class="avatar_user" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-  </ion-avatar>
-  </ion-button>
+          <img class="avatar_user" alt="Silhouette of a person's head" src="" />
+        </ion-avatar>
+      </ion-button> -->
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
