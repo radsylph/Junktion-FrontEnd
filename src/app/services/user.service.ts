@@ -27,8 +27,8 @@ export class UserServices {
     private BackenUrl: string = 'http://localhost:7338'; //cambiar por la url en despliegue luego.
 
     createUser(newUser: UserInterface) {
-
         try {
+            // return console.log(newUser);
             return this.http.post(`${this.BackenUrl}/users/create`, newUser).toPromise().then((res: any) => {
                 return res;
             });
@@ -139,5 +139,6 @@ export class UserServices {
             return error;
         }
     }
+
 
 }
