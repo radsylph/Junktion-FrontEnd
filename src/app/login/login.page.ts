@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
     };
   }
 
-  async setToken(token: string, ownerSession: string) {
+  async setToken(token: string, ownerSession: string, ownerProfilePicture: string) {
     await Preferences.set({
       key: 'token',
       value: token,
@@ -43,6 +43,10 @@ export class LoginPage implements OnInit {
     await Preferences.set({
       key: 'ownerSession',
       value: ownerSession,
+    });
+    await Preferences.set({
+      key: "ownerProfilePicture",
+      value: ownerProfilePicture,
     });
     this.nav.navigateForward('/landing/feed');
   }
@@ -75,7 +79,7 @@ export class LoginPage implements OnInit {
       });
       await alert.present();
       console.log(loginUser)
-      await this.setToken(loginUser.token, loginUser.user._id);
+      await this.setToken(loginUser.token, loginUser.user._id, loginUser.user.profilePicture);
     } catch (error: any) {
       console.log(error);
       const alert = await this.alert.create({
