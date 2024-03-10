@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
-    //this.getToken();
+    this.getToken();
     this.User = {
       email: "",
       password: ""
