@@ -1,0 +1,103 @@
+img.avatar_user{
+    height: 50px;
+    width: auto;
+}
+
+ion-col.avatar_house{
+
+    display: flex;
+    justify-content: center;
+}
+
+ion-card{
+    color: #fff;
+}
+
+ion-col {
+    color: #fff;
+
+    justify-content: center;
+  }
+
+  ion-badge {
+    --color: white;
+    --padding-end: 20px;
+    --padding-start: 20px;
+  }
+
+  ion-segment-button {
+    --indicator-color: #F4511C;
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #fff;
+    --color-checked: #F4511C;
+    --indicator-height: 4px;
+  }
+
+  ion-col.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+.avatar_banner{
+    height: 180px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ion-textarea{
+    margin-top: 20px;
+}
+
+img.avatar_modal{
+    height: 150px;
+    width: auto;
+}
+
+ion-button.delete_count {
+    margin-top: 30px;
+    --background: #e72020;
+
+  
+    --color: rgb(0, 0, 0);
+  
+    --border-radius: 0;
+    --border-color: #000;
+    --border-style: solid;
+    --border-width: 1px;
+  
+    --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+  
+    --ripple-color: deeppink;
+  
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+  }
+
+  ion-button.edit_user {
+    margin-top: 30px;
+
+
+  
+    --color: rgb(0, 0, 0);
+  
+    --border-radius: 0;
+    --border-color: #000;
+    --border-style: solid;
+    --border-width: 1px;
+  
+    --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+  
+    --ripple-color: deeppink;
+  
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+  }
+
+ 
