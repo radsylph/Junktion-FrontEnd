@@ -20,4 +20,5 @@ export interface PostInterface {
     createdAt: string;
     updatedAt: string;
     isLiked?: boolean;
+    isBookMarked?: boolean;
 }
