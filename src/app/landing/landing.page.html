@@ -7,16 +7,14 @@
       <ion-icon name="person"></ion-icon>
       <ion-badge slot="end">22</ion-badge>
     </ion-tab-button>
-    <ion-tab-button tab="friendly">
-      <ion-tab-button tab="friends">
-        <ion-icon name="settings-outline"></ion-icon>
-        <ion-badge slot="end">22</ion-badge>
-      </ion-tab-button>
-      <!-- <ion-button fill="clear">
-        <ion-avatar>
-          <img class="avatar_user" alt="Silhouette of a person's head" src="" />
-        </ion-avatar>
-      </ion-button> -->
+    <ion-tab-button tab="user">
+      <ion-avatar>
+        <img
+          class="avatar_user"
+          alt="Silhouette of a person's head"
+          [src]="profileAvatar"
+        />
+      </ion-avatar>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
