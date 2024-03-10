@@ -21,8 +21,12 @@
         ></ion-col>
       </ion-row>
     </ion-grid>
-    <ion-segment value="discober">
-      <ion-segment-button value="discober">
+    <ion-segment
+      [scrollable]="true"
+      value="discover"
+      (ionChange)="changeSection($event)"
+    >
+      <ion-segment-button value="discover">
         <ion-label>Discober</ion-label>
       </ion-segment-button>
       <ion-segment-button value="friends">
@@ -69,7 +73,13 @@
         <ion-card-title>{{Publication.title}}</ion-card-title>
         <ion-card-subtitle>{{Publication.content}}</ion-card-subtitle>
       </ion-card-content>
-      <ion-card-content> </ion-card-content>
+      <ion-card-content *ngIf="Publication.images">
+        <swiper-container class="imgpost" *ngIf="Publication.images">
+          <swiper-slide *ngFor="let image of Publication.images">
+            <img [src]="image" alt="" />
+          </swiper-slide>
+        </swiper-container>
+      </ion-card-content>
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -95,11 +105,18 @@
               ></ion-icon></ion-button
           ></ion-col>
           <ion-col
-            ><ion-button fill="clear"
-              ><ion-icon
+            ><ion-button
+              fill="clear"
+              (click)="bookMarkPublication(Publication._id, Publication)"
+            >
+              <ion-icon
+                *ngIf="Publication.isBookMarked; else notBookmarkedIcon"
                 class="action"
-                name="pricetag-outline"
-              ></ion-icon></ion-button
+                name="pricetag"
+              ></ion-icon>
+              <ng-template #notBookmarkedIcon>
+                <ion-icon class="action" name="pricetag-outline"></ion-icon>
+              </ng-template> </ion-button
           ></ion-col>
           <ion-col
             *ngIf="ownerSession === Publication.owner._id"
