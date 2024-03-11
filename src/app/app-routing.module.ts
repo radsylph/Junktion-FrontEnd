@@ -38,7 +38,15 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./landing/user/user.module').then(m => m.UserPageModule)
-  }
+  },
+  {
+    path: 'edit',
+    loadChildren: () => import('./edit/edit.module').then(m => m.EditPageModule)
+  },
+  {
+    path: 'edit-commit',
+    loadChildren: () => import('./edit-commit/edit-commit.module').then(m => m.EditCommitPageModule)
+  },
 ];
 
 @NgModule({
