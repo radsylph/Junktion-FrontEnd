@@ -41,6 +41,7 @@ export class UserPage implements OnInit {
   userPosts: PostInterface[] = [];
   newPass: string = '';
   newPassConfirm: string = '';
+  userFriends: any[] = [];
 
   image: any = '';
   image2: any = "";
@@ -62,7 +63,9 @@ export class UserPage implements OnInit {
     await this.getToken();
     await this.getUserInfo();
     await this.getUserPosts();
+    await this.getUserFriends();
   }
+
   async getToken() {
     await Preferences
       .get({ key: 'token' })
@@ -85,16 +88,44 @@ export class UserPage implements OnInit {
 
   async getUserPosts() {
     const posts: any = await this.user.getUserPosts(this.ownerSession, this.token);
+    console.log(posts);
     this.userPosts = posts.existingPublications as PostInterface[];
     console.log(this.userPosts);
   }
 
+  async deleteFriend(friendShipId: string) {
+    const alert = await this.alert.create({
+      header: 'Delete Friend',
+      message: 'Are you sure you want to delete this friend?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Yes',
+          handler: async () => {
+            await this.user.deleteUserFriend(this.token, friendShipId);
+            await this.getUserFriends();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+  async getUserFriends() {
+    const friends: any = await this.user.getUserFriends(this.token, this.ownerSession);
+    this.userFriends = friends.userFriends;
+
+  }
+
   handleRefresh(event: any) {
     setTimeout(async () => {
-
       console.log("test");
       await this.getUserInfo();
       await this.getUserPosts();
+      await this.getUserFriends();
       event.target.complete();
     }, 2000);
   }
@@ -277,9 +308,6 @@ export class UserPage implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
-
-
-
 
   changeSegment(event: any) {
     this.currentSegment = event.detail.value;

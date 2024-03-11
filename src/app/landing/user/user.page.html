@@ -110,23 +110,25 @@
       </ion-grid>
     </ion-card>
   </div>
-  <ion-segment *ngIf="currentSegment === 'friends'"
-    ><ion-item>
+  <ion-segment *ngIf="currentSegment === 'friends'">
+    <ion-item *ngFor="let friend of userFriends">
       <ion-avatar slot="start">
-        <img class="avatar_user" [src]="" alt="avatar" />
+        <img
+          class="avatar_user"
+          [src]="friend.myFriend.profilePicture"
+          alt="avatar"
+        />
       </ion-avatar>
-      <ion-label>nombre</ion-label>
-      <ion-button color="success">
-        <ion-icon size="large" name="checkbox"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear">
+      <ion-label>{{friend.myFriend.name}}</ion-label>
+      <ion-button fill="clear" (click)="deleteFriend(friend._id)">
         <ion-icon
           color="warning"
           size="large"
           name="close-circle-Outline"
         ></ion-icon>
-      </ion-button> </ion-item
-  ></ion-segment>
+      </ion-button>
+    </ion-item>
+  </ion-segment>
 
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
