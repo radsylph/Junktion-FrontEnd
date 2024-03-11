@@ -165,6 +165,19 @@ export class UserServices {
         }
     }
 
+    getPublicationInfo(token: any, publicationId: any) {
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/get/${publicationId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getPublicationInfo", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
     getFeedPosts(token: any) {
         if (token === "" || token === undefined || token === null) {
             console.log("no hay token");
@@ -344,7 +357,7 @@ export class UserServices {
             return;
         }
         try {
-            return this.http.get(`${this.BackenUrl}/publications/get/${userId}`, {
+            return this.http.get(`${this.BackenUrl}/publications/getAll/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             }).toPromise().then((res: any) => {
                 console.log("getUserPosts", res);
@@ -356,6 +369,10 @@ export class UserServices {
     }
 
     getFriendsPosts(token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
         try {
             return this.http.get(`${this.BackenUrl}/publications/getFriendsPublications`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -367,4 +384,39 @@ export class UserServices {
             return error;
         }
     }
+
+    getUserFriends(token: any, userId: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/getFriends/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getUserFriends", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    deleteUserFriend(token: any, friendShipId: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.delete(`${this.BackenUrl}/publications/deleteFriend/${friendShipId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("deleteUserFriend", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
 }
