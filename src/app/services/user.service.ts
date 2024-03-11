@@ -51,6 +51,44 @@ export class UserServices {
 
     }
 
+    editUser(userInfo: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.put(`${this.BackenUrl}/users/edit`, userInfo, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("editUser", res);
+                return res;
+            })
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+
+    }
+
+    changePassword(newPassword: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.patch(`${this.BackenUrl}/users/changePassword`, newPassword, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("editUser", res);
+                return res;
+            })
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+
+    }
+
     getUserInfo(token: string) {
         if (token === "" || token === undefined || token === null) {
             console.log("no hay token");
@@ -125,44 +163,6 @@ export class UserServices {
             console.log(error);
             return error;
         }
-    }
-
-    editUser(userInfo: any, token: any) {
-        if (token === "" || token === undefined || token === null) {
-            console.log("no hay token");
-            return;
-        }
-        try {
-            return this.http.put(`${this.BackenUrl}/users/edit`, userInfo, {
-                headers: { Authorization: `Bearer ${token}` },
-            }).toPromise().then((res: any) => {
-                console.log("editUser", res);
-                return res;
-            })
-        } catch (error) {
-            console.log(error);
-            return error;
-        }
-
-    }
-
-    changePassword(newPassword: any, token: any) {
-        if (token === "" || token === undefined || token === null) {
-            console.log("no hay token");
-            return;
-        }
-        try {
-            return this.http.patch(`${this.BackenUrl}/users/changePassword`, newPassword, {
-                headers: { Authorization: `Bearer ${token}` },
-            }).toPromise().then((res: any) => {
-                console.log("editUser", res);
-                return res;
-            })
-        } catch (error) {
-            console.log(error);
-            return error;
-        }
-
     }
 
     getFeedPosts(token: any) {
@@ -270,5 +270,101 @@ export class UserServices {
         }
     }
 
+    sendFriendRequest(receiver: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.post(`${this.BackenUrl}/publications/sendFriendRequest/${receiver}`, {}, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("sendFriendRequest", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
 
+    acceptFriendRequest(sender: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.post(`${this.BackenUrl}/publications/acceptFriendRequest/${sender}`, {}, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("acceptFriendRequest", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    rejectFriendRequest(sender: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.post(`${this.BackenUrl}/publications/rejectFriendRequest/${sender}`, {}, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("rejectFriendRequest", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    getFriendRequests(token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/getFriendRequests`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getFriendRequests", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    getUserPosts(userId: any, token: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/get/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getUserPosts", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    getFriendsPosts(token: any) {
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/getFriendsPublications`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getFriendsPosts", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
 }
