@@ -6,6 +6,7 @@ export interface UserInterface {
     password: string;
     repeat_password: string;
     profilePicture?: string;
+    myFriends?: number;
 }
 
 export interface existingUser {
