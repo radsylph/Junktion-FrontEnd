@@ -81,6 +81,8 @@ export class FeedPage implements OnInit, ViewDidEnter {
       console.log(this.token)
       console.log(this.ownerSession)
       this.getFeed(this.token);
+      this.getBookMarkFeed(this.token);
+      this.getFriendsFeed(this.token);
       event.target.complete();
     }, 2000);
   }
@@ -91,15 +93,44 @@ export class FeedPage implements OnInit, ViewDidEnter {
       const Feed: any = await this.user.getFeedPosts(token)
       const likes: any = await this.user.getLikedPosts(token);
       const bookmarks: any = await this.user.getBookMarkedPosts(token);
-      const userLikedPostIds = likes
-        .filter((like: any) => like.userId === this.ownerSession) // Filtra los "likes" del usuario actual
-        .map((like: any) => like.publicationId); // Obtiene los ids de las publicaciones que el usuario ha "likeado"
-      const userBookmarkedPostIds = bookmarks
-        .filter((bookmark: any) => bookmark.userId === this.ownerSession) // Filtra los "bookmarks" del usuario actual
-        .map((bookmark: any) => bookmark.publicationId); // Obtiene los ids de las publicaciones que el usuario ha marcado como favoritas
+      const userLikedPostIds: any = likes
+        .filter((like: any) => like.userId === this.ownerSession)
+        .map((like: any) => like.publicationId);
+      const userBookmarkedPostIds: any = bookmarks
+        .filter((bookmark: any) => bookmark.userId === this.ownerSession)
+        .map((bookmark: any) => bookmark.publicationId);
       this.Publications = Feed.publications.map((publication: any) => {
-        publication.isLiked = userLikedPostIds.includes(publication._id); // Verifica si el usuario ha "likeado" la publicación
-        publication.isBookMarked = userBookmarkedPostIds.includes(publication._id); // Verifica si el usuario ha marcado la publicación como favorita
+        publication.isLiked = userLikedPostIds.includes(publication._id);
+        publication.isBookMarked = userBookmarkedPostIds.includes(publication._id);
+        return publication;
+      });
+      console.log(this.Publications);
+      return this.Publications;
+    } catch (error: any) {
+      console.log(error);
+      if (error.status == 401) {
+        this.deleteToken();
+      }
+      return error
+    }
+  }
+
+  async getFriendsFeed(token: any) {
+    token = this.token;
+    try {
+      const friendsFeed: any = await this.user.getFriendsPosts(token);
+      console.log(friendsFeed)
+      const likes: any = await this.user.getLikedPosts(token);
+      const bookmarks: any = await this.user.getBookMarkedPosts(token);
+      const userLikedPostIds = likes
+        .filter((like: any) => like.userId === this.ownerSession)
+        .map((like: any) => like.publicationId);
+      const userBookmarkedPostIds = bookmarks
+        .filter((bookmark: any) => bookmark.userId === this.ownerSession)
+        .map((bookmark: any) => bookmark.publicationId);
+      this.Publications = friendsFeed.friendsPublications.map((publication: any) => {
+        publication.isLiked = userLikedPostIds.includes(publication._id);
+        publication.isBookMarked = userBookmarkedPostIds.includes(publication._id);
         return publication;
       });
       console.log(this.Publications);
@@ -260,6 +291,7 @@ export class FeedPage implements OnInit, ViewDidEnter {
         break;
       case 'friends':
         console.log("friends");
+        this.getFriendsFeed(this.token);
         break;
       case 'bookmark':
         console.log("bookmark")
