@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-label>//user name//</ion-label>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+
+          <ion-grid>
+      <ion-row>
+        <ion-col class="avatar_house">        
+          <ion-avatar size="8">
+            <img class="avatar_user" alt="Silhouette of a person's head" src="" />
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="3" >
+          <ion-badge color="danger" >11</ion-badge>
+          <ion-label>friends</ion-label>
+        </ion-col>
+        <ion-col  size="3">
+          <ion-badge color="danger" >11</ion-badge>
+          <ion-label>post</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Username</ion-card-title>
+       
+      </ion-card-header>
+    
+      <ion-card-content>
+        //description//
+      </ion-card-content>
+
+
+    </ion-card>
+
+<ion-button color="dark" expand="block" shape="round">Send friend request</ion-button>
+    
+    <ion-segment [scrollable]="true" value="post">
+      <ion-segment-button value="post">
+        <ion-label>My posts</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="friends">
+        <ion-label>My Friends</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="comments">
+        <ion-label>my comments</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+<ion-item>
+
+</ion-item>
+
+
+</ion-content>
+
+
