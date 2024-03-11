@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { UserServices } from 'src/app/services/user.service';
 import { UserInterface } from 'src/app/interfaces/user.interface';
+import { PostInterface } from 'src/app/interfaces/post.interface';
 import { Capacitor } from '@capacitor/core';
 import {
   Storage,
@@ -21,9 +22,10 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 export class UserPage implements OnInit {
 
   constructor(private nav: NavController, private storage: Storage, private alert: AlertController, private user: UserServices) { }
-
+  currentSegment = 'post';
   isPasswordModalOpen = false;
   token: string = '';
+  ownerSession: string = '';
   profileAvatar: string = '';
   isModalOpen = false;
   userInfo: UserInterface = {
@@ -34,12 +36,15 @@ export class UserPage implements OnInit {
     password: '',
     repeat_password: '',
     profilePicture: 'image.png',
+    myFriends: 0,
   };
+  userPosts: PostInterface[] = [];
   newPass: string = '';
   newPassConfirm: string = '';
 
   image: any = '';
   image2: any = "";
+
   async ngOnInit() {
     this.userInfo = {
       name: '',
@@ -48,16 +53,15 @@ export class UserPage implements OnInit {
       email: '',
       password: '',
       repeat_password: '',
+      myFriends: 0,
       profilePicture: 'image.png',
     };
     this.newPass = '';
     this.newPassConfirm = '';
-    console.log(this.profileAvatar === this.userInfo.profilePicture)
     await this.getProfilePicture();
     await this.getToken();
     await this.getUserInfo();
-    console.log(this.profileAvatar as string)
-    console.log(this.userInfo.profilePicture)
+    await this.getUserPosts();
   }
   async getToken() {
     await Preferences
@@ -65,7 +69,12 @@ export class UserPage implements OnInit {
       .then((token: any) => {
         this.token = token.value;
       });
+    await Preferences.get({ key: 'ownerSession' }).then((session: any) => {
+      this.ownerSession = session.value;
+    }
+    );
   }
+
   async getUserInfo() {
     console.log(this.token)
     const userInfo: any = await this.user.getUserInfo(this.token);
@@ -74,11 +83,18 @@ export class UserPage implements OnInit {
     console.log(this.userInfo);
   }
 
+  async getUserPosts() {
+    const posts: any = await this.user.getUserPosts(this.ownerSession, this.token);
+    this.userPosts = posts.existingPublications as PostInterface[];
+    console.log(this.userPosts);
+  }
+
   handleRefresh(event: any) {
-    setTimeout(() => {
+    setTimeout(async () => {
 
       console.log("test");
-      this.getUserInfo();
+      await this.getUserInfo();
+      await this.getUserPosts();
       event.target.complete();
     }, 2000);
   }
@@ -250,6 +266,7 @@ export class UserPage implements OnInit {
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
   }
+
   public alertButtons = [
     {
       text: 'No',
@@ -261,8 +278,17 @@ export class UserPage implements OnInit {
     },
   ];
 
+
+
+
+  changeSegment(event: any) {
+    this.currentSegment = event.detail.value;
+  }
+
   setPasswordModalOpen(open: boolean) {
     this.isPasswordModalOpen = open;
   }
+
+
 }
 
