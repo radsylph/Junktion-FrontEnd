@@ -27,7 +27,7 @@
       (ionChange)="changeSection($event)"
     >
       <ion-segment-button value="discover">
-        <ion-label>Discober</ion-label>
+        <ion-label>Discover</ion-label>
       </ion-segment-button>
       <ion-segment-button value="friends">
         <ion-label>friends</ion-label>
@@ -64,6 +64,11 @@
                 <span>
                   Created at: {{Publication.createdAt | date:'short'}}</span
                 >
+                <ng-segment *ngIf="Publication.isEdited">
+                  <span>
+                    Edited at {{Publication.updatedAt | date:'short'}}
+                  </span>
+                </ng-segment>
               </ion-col>
             </ion-row>
           </ion-col>

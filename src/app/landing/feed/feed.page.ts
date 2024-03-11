@@ -186,6 +186,7 @@ export class FeedPage implements OnInit, ViewDidEnter {
     }
   }
 
+
   async publicationOptions(postId: string) {
     console.log(postId);
     const actionSheetButtons = await this.sheet.create({
@@ -218,16 +219,19 @@ export class FeedPage implements OnInit, ViewDidEnter {
         {
           text: 'Edit',
           role: 'modification',
-          handler: () => {
+          handler: async () => {
             console.log('Edit clicked');
-            Preferences.set({ key: 'PublicationId', value: postId });
-
+            await Preferences.set({ key: 'PublicationId', value: postId });
+            console.log('PublicationId:', postId);
+            await this.nav.navigateForward('/edit-commit');
           },
         },
         {
           text: 'Cancel',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {
+
+          },
         },
       ],
     });
