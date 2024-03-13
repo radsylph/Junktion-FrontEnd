@@ -1,163 +1,172 @@
 <ion-header [translucent]="true">
-  <ion-button
-  color="dark"
-  class="backbtn"
-  routerLink="/landing/feed"
-  routerDirection="back"><ion-icon
-    name="arrow-back-outline"></ion-icon></ion-button>
+  <ion-button color="dark" class="backbtn" (click)="goBack()"
+    ><ion-icon name="arrow-back-outline"></ion-icon
+  ></ion-button>
 </ion-header>
 
 <ion-content [fullscreen]="true">
- 
+  <ion-card *ngIf="postInfo">
+    <ion-card-header>
+      <ion-row class="wrapper">
+        <ion-col size="2">
+          <ion-avatar>
+            <img
+              class="avatar"
+              alt="Silhouette of a person's head"
+              [src]="postInfo.owner.profilePicture"
+            />
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="10">
+          <ion-row class="info">
+            <ion-col size="12">
+              <span class="name">{{postInfo.owner.name}}</span>
+              <span class="handle">{{"@" + postInfo.owner.username}}</span>
+              <span> Created at: {{postInfo.createdAt | date:'short'}}</span>
+
+              <span *ngIf="postInfo.isEdited">
+                Edited at {{postInfo.updatedAt | date:'short'}}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-card-title>{{postInfo.title}}</ion-card-title>
+      <ion-card-subtitle>{{postInfo.content}}</ion-card-subtitle>
+    </ion-card-content>
+    <ion-card-content *ngIf="postInfo.images">
+      <swiper-container class="imgpost" *ngIf="postInfo.images">
+        <swiper-slide *ngFor="let image of postInfo.images">
+          <img [src]="image" alt="" />
+        </swiper-slide>
+      </swiper-container>
+    </ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button
+            fill="clear"
+            (click)="giveLike(postInfo._id , this.token, postInfo)"
+          >
+            <ion-icon name="heart"></ion-icon>
+            <ng-template #notLikedIcon>
+              <ion-icon name="heart-outline"></ion-icon>
+            </ng-template>
+            <span id="likes">{{postInfo.likes}}</span>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button fill="clear" (click)="makeComment(postInfo._id)"
+            ><ion-icon class="action" name="chatbubble-outline"></ion-icon>
+            <span>{{postInfo.comments}}</span></ion-button
+          ></ion-col
+        >
+        <ion-col
+          ><ion-button fill="clear"
+            ><ion-icon
+              class="action"
+              name="pricetag-outline"
+            ></ion-icon></ion-button
+        ></ion-col>
+        <ion-col
+          *ngIf="ownerSession === postInfo.owner._id"
+          (click)="publicationOptions(postInfo._id)"
+          ><ion-button fill="clear" id="open-action-sheet"
+            ><ion-icon
+              class="action"
+              name="ellipsis-horizontal-outline"
+            ></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-list>
+    <ion-item *ngFor="let comment of comments; let index">
       <ion-card>
-      <ion-card-header>
-        <ion-row class="wrapper">
-          <ion-col size="2">
-            <ion-avatar>
-              <img
-                class="avatar"
-                alt="Silhouette of a person's head"
-              
-              />
-            </ion-avatar>
-          </ion-col>
-          <ion-col size="10">
-            <ion-row class="info">
-              <ion-col size="12">
-                <span class="name">ZZZZZZZZZZ</span>
-                <span class="handle">XXXXXXXXX</span>
-                <span>
-                  </span
-                >
-              </ion-col>
-            </ion-row>
-          </ion-col>
-        </ion-row>
-      </ion-card-header>
-    
-      <ion-card-content>
-        Here's a small text description for the card content. Nothing more, nothing less.
-      </ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button
-              fill="clear"
-              
-            >
-              <ion-icon
-                
-                name="heart"
-              ></ion-icon>
-              <ng-template #notLikedIcon>
-                <ion-icon name="heart-outline"></ion-icon>
-              </ng-template>
-              <span id="likes"></span>
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button fill="clear"
-              ><ion-icon
-                class="action"
-                name="chatbubble-outline"
-              ></ion-icon></ion-button
-          ></ion-col>
-          <ion-col
-            ><ion-button fill="clear"
-              ><ion-icon
-                class="action"
-                name="pricetag-outline"
-              ></ion-icon></ion-button
-          ></ion-col>
-          <ion-col
-            
-            ><ion-button fill="clear" id="open-action-sheet"
-              ><ion-icon
-                class="action"
-                name="ellipsis-horizontal-outline"
-              ></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card>
-
-    <ion-list>
-      <ion-item *ngFor="let item of items; let index">
-
-        <ion-card>
-          <ion-card-header>
-            <ion-row class="wrapper">
-              <ion-col size="2">
-                <ion-avatar >
-                  <img class="avatar" [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
-                </ion-avatar>
-              </ion-col>
-              <ion-col size="10">
-                <ion-row class="info">
-                  <ion-col size="12">
-                    <span class="name">{{ item }}</span>
-                    <span class="handle">XXXXXXXXX</span>
+        <ion-card-header>
+          <ion-row class="wrapper">
+            <ion-col size="2">
+              <ion-avatar>
+                <img
+                  class="avatar"
+                  [src]="comment.owner.profilePicture"
+                  alt="avatar"
+                />
+              </ion-avatar>
+            </ion-col>
+            <ion-col size="10">
+              <ion-row class="info">
+                <ion-col size="12">
+                  <span class="name">{{ comment.owner.name }}</span>
+                  <span class="handle">{{"@" + comment.owner.username}}</span>
+                  <span> Created at: {{comment.createdAt | date:'short'}}</span>
+                  <ng-segment *ngIf="comment.isEdited">
                     <span>
-                      </span
-                    >
-                  </ion-col>
-                </ion-row>
-              </ion-col>
-            </ion-row>
-          </ion-card-header>
-        
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ion-button
-                  fill="clear"
-                  
-                >
-                  <ion-icon
-                    
-                    name="heart"
-                  ></ion-icon>
-                  <ng-template #notLikedIcon>
-                    <ion-icon name="heart-outline"></ion-icon>
-                  </ng-template>
-                  <span id="likes"></span>
-                </ion-button>
-              </ion-col>
-              <ion-col>
-                <ion-button fill="clear"
-                  ><ion-icon
-                    class="action"
-                    name="chatbubble-outline"
-                  ></ion-icon></ion-button
-              ></ion-col>
-              <ion-col
-                ><ion-button fill="clear"
-                  ><ion-icon
-                    class="action"
-                    name="pricetag-outline"
-                  ></ion-icon></ion-button
-              ></ion-col>
-              <ion-col
-                
-                ><ion-button fill="clear" id="open-action-sheet"
-                  ><ion-icon
-                    class="action"
-                    name="ellipsis-horizontal-outline"
-                  ></ion-icon>
-                </ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card>
-    
-      </ion-item>
-    </ion-list>
-    <ion-infinite-scroll>
-      <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-  
+                      Edited at {{comment.updatedAt | date:'short'}}
+                    </span>
+                  </ng-segment>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-card-header>
+
+        <ion-card-content (click)="goToComment(comment._id)">
+          <ion-card-title>{{comment.title}}</ion-card-title>
+          <ion-card-subtitle>{{comment.content}}</ion-card-subtitle>
+        </ion-card-content>
+        <ion-card-content *ngIf="comment.images">
+          <swiper-container class="imgpost" *ngIf="comment.images">
+            <swiper-slide *ngFor="let image of comment.images">
+              <img [src]="image" alt="" />
+            </swiper-slide>
+          </swiper-container>
+        </ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button
+                fill="clear"
+                (click)="giveLike(comment._id, this.token, comment)"
+              >
+                <ion-icon name="heart"></ion-icon>
+                <ng-template #notLikedIcon>
+                  <ion-icon name="heart-outline"></ion-icon>
+                </ng-template>
+                <span id="likes">{{comment.likes}}</span>
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button fill="clear" (click)="makeComment(comment._id)"
+                ><ion-icon
+                  class="action"
+                  name="chatbubble-outline"
+                ></ion-icon></ion-button
+            ></ion-col>
+            <ion-col
+              *ngIf="ownerSession === comment.owner._id"
+              (click)="commentOptions(comment._id)"
+              ><ion-button fill="clear" id="open-action-sheet"
+                ><ion-icon
+                  class="action"
+                  name="ellipsis-horizontal-outline"
+                ></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll>
+    <ion-infinite-scroll-content
+      loadingText="Please wait..."
+      loadingSpinner="bubbles"
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
