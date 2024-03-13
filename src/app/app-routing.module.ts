@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'edit-commit',
     loadChildren: () => import('./edit-commit/edit-commit.module').then(m => m.EditCommitPageModule)
   },
+  {
+    path: 'details',
+    loadChildren: () => import('./landing/details/details.module').then(m => m.DetailsPageModule)
+  }
 ];
 
 @NgModule({
