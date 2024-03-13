@@ -15,36 +15,39 @@ import { filter } from 'rxjs/operators';
   templateUrl: './feed.page.html',
   styleUrls: ['./feed.page.scss'],
 })
-export class FeedPage implements OnInit, ViewDidEnter {
+export class FeedPage implements OnInit {
   constructor(
     private user: UserServices,
     private alert: AlertController,
     private nav: NavController,
     private sheet: ActionSheetController,
-    private router: Router) {
+    private router: Router,
+  ) {
     this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.getFeed(this.token);
+    ).subscribe(async () => {
+      await this.ngOnInit();
+      this.getFeed();
     });
   }
 
   public Publications: PostInterface[] = [];
-  public token: any = '';
+  public token: string = '';
   public ownerSession: any = '';
   public likedPost: any = "";
 
   async ngOnInit() {
     await this.getToken();
-    await this.getFeed(this.token);
+    await this.getFeed();
   }
 
-  async ionViewDidEnter() {
-    console.log("hola");
-    await this.getFeed(this.token);
-    console.log("token:", this.token);
-    console.log("ownerSession:", this.ownerSession);
-  }
+  // async ionViewDidEnter() {
+  //   console.log("hola");
+  //   await this.getToken();
+  //   await this.getFeed();
+  //   console.log("token:", this.token);
+  //   console.log("ownerSession:", this.ownerSession);
+  // }
 
   async getToken() {
     await Preferences
@@ -76,22 +79,18 @@ export class FeedPage implements OnInit, ViewDidEnter {
   };
 
   handleRefresh(event: any) {
-    setTimeout(() => {
-      // Any calls to load data go here
-      console.log(this.token)
-      console.log(this.ownerSession)
-      this.getFeed(this.token);
-      this.getBookMarkFeed(this.token);
-      this.getFriendsFeed(this.token);
+    setTimeout(async () => {
+      //await this.ionViewDidEnter();
+      await this.ngOnInit();
       event.target.complete();
     }, 2000);
   }
 
-  async getFeed(token: any) {
-    token = this.token;
+  async getFeed() {
+    const token = this.token;
     try {
-      const Feed: any = await this.user.getFeedPosts(token)
-      const likes: any = await this.user.getLikedPosts(token);
+      const Feed: any = await this.user.getFeedPosts(token) ?? [];
+      const likes: any = await this.user.getLikedPosts(token) ?? [];
       const bookmarks: any = await this.user.getBookMarkedPosts(token);
       const userLikedPostIds: any = likes
         .filter((like: any) => like.userId === this.ownerSession)
@@ -115,8 +114,8 @@ export class FeedPage implements OnInit, ViewDidEnter {
     }
   }
 
-  async getFriendsFeed(token: any) {
-    token = this.token;
+  async getFriendsFeed() {
+    const token = this.token;
     try {
       const friendsFeed: any = await this.user.getFriendsPosts(token);
       console.log(friendsFeed)
@@ -144,8 +143,20 @@ export class FeedPage implements OnInit, ViewDidEnter {
     }
   }
 
-  async getBookMarkFeed(token: any) {
-    token = this.token;
+  async goToProfile(userId: string) {
+    await Preferences.remove({ key: 'userId' });
+    await Preferences.set({ key: 'userId', value: userId });
+    console.log('userId:', userId);
+    await this.nav.navigateForward('/landing/userfriends');
+  }
+
+  async goToSettings() {
+    console.log("test")
+    await this.nav.navigateForward('/landing/user');
+  }
+
+  async getBookMarkFeed() {
+    const token = this.token;
     try {
       const bookMarkPosts: any = await this.user.getMyBookMarkedPosts(token, this.ownerSession);
       //console.log(bookMarkPosts)
@@ -186,6 +197,17 @@ export class FeedPage implements OnInit, ViewDidEnter {
     }
   }
 
+  async goToPublication(postId: string) {
+    await Preferences.set({ key: 'PublicationId', value: postId });
+    console.log('PublicationId:', postId);
+    await this.nav.navigateRoot('/landing/details');
+  }
+
+  async makeComment(postId: string) {
+    await Preferences.set({ key: 'PublicationId', value: postId });
+    console.log('PublicationId:', postId);
+    await this.nav.navigateForward('/edit');
+  }
 
   async publicationOptions(postId: string) {
     console.log(postId);
@@ -197,14 +219,14 @@ export class FeedPage implements OnInit, ViewDidEnter {
           handler: () => {
             this.alert
               .create({
-                header: 'Delete tweet',
+                header: 'Delete publication',
                 message: 'Are you really sure you want to delete this ?',
                 buttons: [
                   {
                     text: 'Yes',
                     handler: async () => {
                       await this.deletePublication(postId);
-                      this.getFeed(this.token);
+                      this.getFeed();
                     },
                   },
                   {
@@ -291,15 +313,15 @@ export class FeedPage implements OnInit, ViewDidEnter {
     switch (event.detail.value) {
       case 'discover':
         console.log("discover")
-        this.getFeed(this.token);
+        this.getFeed();
         break;
       case 'friends':
         console.log("friends");
-        this.getFriendsFeed(this.token);
+        this.getFriendsFeed();
         break;
       case 'bookmark':
         console.log("bookmark")
-        this.getBookMarkFeed(this.token);
+        this.getBookMarkFeed();
         // const bookMarkedPublications: any = await this.user.getMyBookMarkedPosts(this.token, this.ownerSession);
         // console.log(bookMarkedPublications);
         // this.Publications = bookMarkedPublications.bookmarkPublication;

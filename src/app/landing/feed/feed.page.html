@@ -48,13 +48,24 @@
       <ion-card-header>
         <ion-row class="wrapper">
           <ion-col size="2">
-            <ion-avatar>
-              <img
-                class="avatar"
-                alt="Silhouette of a person's head"
-                [src]="Publication.owner.profilePicture"
-              />
-            </ion-avatar>
+            <ng-segment *ngIf="Publication.owner._id === this.ownerSession">
+              <ion-avatar (click)="goToSettings()">
+                <img
+                  class="avatar"
+                  alt="Silhouette of a person's head"
+                  [src]="Publication.owner.profilePicture"
+                />
+              </ion-avatar>
+            </ng-segment>
+            <ng-segment *ngIf="Publication.owner._id !== this.ownerSession">
+              <ion-avatar (click)="goToProfile(Publication.owner._id)">
+                <img
+                  class="avatar"
+                  alt="Silhouette of a person's head"
+                  [src]="Publication.owner.profilePicture"
+                />
+              </ion-avatar>
+            </ng-segment>
           </ion-col>
           <ion-col size="10">
             <ion-row class="info">
@@ -74,16 +85,17 @@
           </ion-col>
         </ion-row>
       </ion-card-header>
-      <ion-card-content>
+      <ion-card-content (click)="goToPublication(Publication._id)">
         <ion-card-title>{{Publication.title}}</ion-card-title>
         <ion-card-subtitle>{{Publication.content}}</ion-card-subtitle>
       </ion-card-content>
       <ion-card-content *ngIf="Publication.images">
-        <swiper-container class="imgpost" *ngIf="Publication.images">
+        <!-- <swiper-container class="imgpost" *ngIf="Publication.images">
           <swiper-slide *ngFor="let image of Publication.images">
             <img [src]="image" alt="" />
           </swiper-slide>
-        </swiper-container>
+        </swiper-container> -->
+        <img [src]="Publication.images[0]" alt="" />
       </ion-card-content>
       <ion-grid>
         <ion-row>
@@ -103,12 +115,11 @@
             </ion-button>
           </ion-col>
           <ion-col>
-            <ion-button fill="clear"
-              ><ion-icon
-                class="action"
-                name="chatbubble-outline"
-              ></ion-icon></ion-button
-          ></ion-col>
+            <ion-button fill="clear" (click)="makeComment(Publication._id)"
+              ><ion-icon class="action" name="chatbubble-outline"></ion-icon>
+              <span> {{Publication.comments}} </span></ion-button
+            ></ion-col
+          >
           <ion-col
             ><ion-button
               fill="clear"
