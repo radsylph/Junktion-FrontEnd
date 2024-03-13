@@ -1,4 +1,5 @@
 export interface UserInterface {
+    _id?: string;
     name: string;
     lastname: string;
     username: string;
@@ -7,6 +8,8 @@ export interface UserInterface {
     repeat_password: string;
     profilePicture?: string;
     myFriends?: number;
+    createdAt?: Date;
+    friends?: number;
 }
 
 export interface existingUser {
