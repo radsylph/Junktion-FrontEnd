@@ -21,11 +21,9 @@ export class UserServices {
         repeat_password: '',
         profilePicture: 'image.png',
     };
-
     // private BackenUrl: string =
     //     'https://junktionbackend-production.up.railway.app';
     private BackenUrl: string = 'http://localhost:7338'; //cambiar por la url en despliegue luego.
-
     createUser(newUser: UserInterface) {
         try {
             // return console.log(newUser);
@@ -101,7 +99,6 @@ export class UserServices {
                 console.log("getUserInfo", res);
                 return res;
             })
-
         } catch (error) {
             console.log(error);
             return error;
@@ -225,6 +222,23 @@ export class UserServices {
             }).toPromise().then((res: any) => {
                 console.log("getLikedPosts", res);
                 return res.likes;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    getLikedComments(token: any, commentId: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/like/${commentId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getLikedComments", res);
+                return res;
             })
         } catch (error) {
             return error;
@@ -412,6 +426,101 @@ export class UserServices {
                 headers: { Authorization: `Bearer ${token}` },
             }).toPromise().then((res: any) => {
                 console.log("deleteUserFriend", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    makeComment(token: any, postId: any, comment: any) {
+        if (token === "" || token === undefined || token === null) {
+            console.log("no hay token");
+            return;
+        }
+        try {
+            return this.http.post(`${this.BackenUrl}/publications/makeComment/${postId}`, comment, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("makeComment", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    getComments(token: any, postId: any) {
+        try {
+            return this.http.get(`${this.BackenUrl}/publications/getComments/${postId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getComments", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    editComment(token: any, commentId: any, comment: any) {
+        try {
+            return this.http.put(`${this.BackenUrl}/publications/editComment/${commentId}`, comment, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("editComment", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    deleteComment(token: any, commentId: any) {
+        try {
+            return this.http.delete(`${this.BackenUrl}/publications/deleteComment/${commentId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("deleteComment", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    getAnotherUserInfo(token: any, userId: any) {
+        try {
+            return this.http.get(`${this.BackenUrl}/users/getUser/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getAnotherUserInfo", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    getUsers(token: any) {
+        try {
+            return this.http.get(`${this.BackenUrl}/users/getAll`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("getUsers", res);
+                return res;
+            })
+        } catch (error) {
+            return error;
+        }
+    }
+
+    deleteAccount(token: any) {
+        try {
+            return this.http.delete(`${this.BackenUrl}/users/delete`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).toPromise().then((res: any) => {
+                console.log("deleteAccount", res);
                 return res;
             })
         } catch (error) {

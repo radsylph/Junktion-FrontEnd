@@ -1,63 +1,144 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-label>//user name//</ion-label>
-  </ion-toolbar>
+  <ion-button color="dark" class="backbtn" (click)="goBack()"
+    ><ion-icon name="arrow-back-outline"></ion-icon
+  ></ion-button>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="avatar_house">
+        <ion-avatar size="8">
+          <img
+            class="avatar_user"
+            alt="Silhouette of a person's head"
+            [src]="userInfo.profilePicture"
+          />
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="3">
+        <ion-badge color="danger">{{userInfo.myFriends}}</ion-badge>
+        <ion-label>friends</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{"@"+ userInfo.name}}</ion-card-title>
+    </ion-card-header>
 
-          <ion-grid>
-      <ion-row>
-        <ion-col class="avatar_house">        
-          <ion-avatar size="8">
-            <img class="avatar_user" alt="Silhouette of a person's head" src="" />
-          </ion-avatar>
-        </ion-col>
-        <ion-col size="3" >
-          <ion-badge color="danger" >11</ion-badge>
-          <ion-label>friends</ion-label>
-        </ion-col>
-        <ion-col  size="3">
-          <ion-badge color="danger" >11</ion-badge>
-          <ion-label>post</ion-label>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    
+    <ion-card-content> {{userInfo.name}} </ion-card-content>
+    <ion-card-content> {{userInfo.lastname}} </ion-card-content>
+  </ion-card>
+  <ng-segment *ngIf="status === 'noFriend'">
+    <ion-button
+      color="dark"
+      expand="block"
+      shape="round"
+      (click)="sendFriendRequest()"
+      >Send friend request</ion-button
+    >
+  </ng-segment>
+  <ng-segment *ngIf="status === 'friend'">
+    <ion-button
+      color="dark"
+      expand="block"
+      shape="round"
+      (click)="deleteFriend(this.userId)"
+      >Delete Friend</ion-button
+    >
+  </ng-segment>
+  <ng-segment *ngIf="status === 'requestSent'" (click)="sendFriendRequest()">
+    <ion-button color="dark" expand="block" shape="round"
+      >Cancel Friend Request</ion-button
+    >
+  </ng-segment>
 
-    <ion-card>
+  <ion-segment
+    [scrollable]="true"
+    value="post"
+    (ionChange)="changeSegment($event)"
+  >
+    <ion-segment-button value="post">
+      <ion-label>Posts</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="friends">
+      <ion-label>Friends</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="currentSegment === 'post'">
+    <ion-card
+      *ngFor="let publication of userPosts"
+      (click)="goToPublication(publication._id)"
+    >
       <ion-card-header>
-        <ion-card-title>Username</ion-card-title>
-       
+        <ion-row class="wrapper">
+          <ion-col size="2">
+            <ion-avatar>
+              <img
+                class="avatar"
+                alt="Silhouette of a person's head"
+                [src]="publication.owner.profilePicture"
+              />
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="10">
+            <ion-row class="info">
+              <ion-col size="12">
+                <span class="name">{{publication.owner.name}}</span>
+                <span class="handle">{{publication.owner.username}}</span>
+                <span>
+                  Created at: {{publication.createdAt | date:"short"}}</span
+                >
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
       </ion-card-header>
-    
       <ion-card-content>
-        //description//
+        <ion-card-title>{{publication.title}}</ion-card-title>
+        <ion-card-content>{{publication.content}}</ion-card-content>
       </ion-card-content>
-
-
+      <ion-card-content *ngIf="publication.images.length >= 1">
+        <swiper-container class="imgpost" *ngIf="publication.images">
+          <swiper-slide *ngFor="let image of publication.images">
+            <img [src]="image" alt="" />
+          </swiper-slide>
+        </swiper-container>
+      </ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button fill="clear">
+              <ion-icon class="action" name="heart-outline"></ion-icon>
+              <span>{{publication.likes}}</span>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill="clear">
+              <ion-icon class="action" name="chatbubble-outline"></ion-icon>
+              <span>{{publication.comments}}</span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card>
-
-<ion-button color="dark" expand="block" shape="round">Send friend request</ion-button>
-    
-    <ion-segment [scrollable]="true" value="post">
-      <ion-segment-button value="post">
-        <ion-label>My posts</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="friends">
-        <ion-label>My Friends</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="comments">
-        <ion-label>my comments</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-
-<ion-item>
-
-</ion-item>
-
-
+  </div>
+  <ion-segment *ngIf="currentSegment === 'friends'">
+    <ion-item *ngFor="let friend of userFriends">
+      <ion-avatar slot="start">
+        <img
+          class="avatar_user"
+          [src]="friend.myFriend.profilePicture"
+          alt="avatar"
+        />
+      </ion-avatar>
+      <ion-label>{{friend.myFriend.name}}</ion-label>
+    </ion-item>
+  </ion-segment>
 </ion-content>
-
-

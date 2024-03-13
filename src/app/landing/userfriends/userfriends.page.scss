@@ -1,6 +1,6 @@
 img.avatar_user{
-    height: 50px;
-    width: auto;
+    height: 500px;
+    width: 50px;
 }
 
 ion-col.avatar_house{
@@ -80,71 +80,9 @@ ion-button.delete_count {
     --padding-bottom: 10px;
   }
 
-  img.avatar_user{
-    height: 50px;
-    width: auto;
-}
-
-ion-col.avatar_house{
-
-    display: flex;
-    justify-content: center;
-}
-
-ion-card{
-    color: #fff;
-}
-
-ion-col {
-    color: #fff;
-
-    justify-content: center;
-  }
-
-  ion-badge {
-    --color: white;
-    --padding-end: 20px;
-    --padding-start: 20px;
-  }
-
-  ion-segment-button {
-    --indicator-color: #F4511C;
-  }
-  
-  /* Material Design styles */
-  ion-segment-button.md {
-    --color: #fff;
-    --color-checked: #F4511C;
-    --indicator-height: 4px;
-  }
-
-  ion-col.header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-.avatar_banner{
-    height: 180px;
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-ion-textarea{
-    margin-top: 20px;
-}
-
-img.avatar_modal{
-    height: 150px;
-    width: auto;
-}
-
-ion-button.delete_count {
+  ion-button.edit_user {
     margin-top: 30px;
-    --background: #e72020;
+
 
   
     --color: rgb(0, 0, 0);
@@ -160,6 +98,75 @@ ion-button.delete_count {
   
     --padding-top: 10px;
     --padding-bottom: 10px;
+  }
+
+
+  
+
+
+ion-card{
+    border-radius: 20px;
+}
+
+
+swiper-slide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img.img_swiper{
+    max-height: 250px;
+}
+
+ion-card-subtitle{
+    color: #fff;
+}
+
+.info{
+    font-size: 0.9em;
+}
+
+.name{
+    font-size: 15px;
+    color: #fff;
+}
+
+.handle{
+    padding-left: 4px;
+    color: #afafaf;
+}
+
+img.avatar{
+    height: 50px;
+    width: 50px;
+}
+
+img.avatar_user{
+    height: 30px;
+    width: auto;
+}
+
+ion-icon.action{
+    color: #fff;
+}
+
+ion-segment-button {
+    --indicator-color: #F4511C;
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #fff;
+    --color-checked: #F4511C;
+    --indicator-height: 4px;
+  }
+
+  ion-col.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
  
