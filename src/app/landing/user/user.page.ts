@@ -6,6 +6,7 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { UserServices } from 'src/app/services/user.service';
 import { UserInterface } from 'src/app/interfaces/user.interface';
 import { PostInterface } from 'src/app/interfaces/post.interface';
+import { ViewWillEnter } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
 import {
   Storage,
@@ -19,7 +20,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   templateUrl: './user.page.html',
   styleUrls: ['./user.page.scss'],
 })
-export class UserPage implements OnInit {
+export class UserPage implements OnInit, ViewWillEnter {
 
   constructor(private nav: NavController, private storage: Storage, private alert: AlertController, private user: UserServices) { }
   currentSegment = 'post';
@@ -66,6 +67,12 @@ export class UserPage implements OnInit {
     await this.getUserFriends();
   }
 
+  async ionViewWillEnter() {
+    await this.getUserInfo();
+    await this.getUserPosts();
+    await this.getUserFriends();
+  }
+
   async getToken() {
     await Preferences
       .get({ key: 'token' })
@@ -81,7 +88,6 @@ export class UserPage implements OnInit {
   async getUserInfo() {
     console.log(this.token)
     const userInfo: any = await this.user.getUserInfo(this.token);
-
     this.userInfo = userInfo.user as UserInterface;
     console.log(this.userInfo);
   }
@@ -114,10 +120,17 @@ export class UserPage implements OnInit {
     });
     await alert.present();
   }
+
   async getUserFriends() {
     const friends: any = await this.user.getUserFriends(this.token, this.ownerSession);
     this.userFriends = friends.userFriends;
 
+  }
+
+  async goToPublication(postId: string) {
+    await Preferences.set({ key: 'PublicationId', value: postId });
+    console.log('PublicationId:', postId);
+    await this.nav.navigateRoot('/landing/details');
   }
 
   handleRefresh(event: any) {
@@ -172,12 +185,23 @@ export class UserPage implements OnInit {
       bstr = atob(arr[1]),
       n = bstr.length,
       u8arr = new Uint8Array(n);
+
+
+    const sizeInMB = n / (1024 * 1024);
+    if (sizeInMB > 3) {
+      const alert = this.alert.create({
+        header: 'Error',
+        message: 'The image is too big',
+        buttons: ['OK']
+      }).then(alert => alert.present());
+      return;
+    }
+
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
     return new Blob([u8arr], { type: mime });
   }
-
   async changePassword() {
     if (this.newPass !== this.newPassConfirm) {
       const alert = await this.alert.create({
@@ -315,6 +339,30 @@ export class UserPage implements OnInit {
 
   setPasswordModalOpen(open: boolean) {
     this.isPasswordModalOpen = open;
+  }
+
+
+  async deleteAccount() {
+    const alert = await this.alert.create({
+      header: 'Delete Account',
+      message: 'Are you sure you want to delete your account?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Yes',
+          handler: async () => {
+            await this.user.deleteAccount(this.token);
+            await this.logOut();
+          },
+        },
+      ],
+    });
+    await alert.present();
+
   }
 
 

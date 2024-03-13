@@ -1,30 +1,130 @@
 <ion-header [translucent]="true">
-
   <ion-toolbar>
-    <ion-searchbar color="light" [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
-    <ion-buttom slot="end" routerLink="../landing/feed" routerDirection="forward">
-      <ion-icon class="backbtn" color="dark" size="large"  name="close-circle-Outline"></ion-icon>
-    </ion-buttom>
+    <ion-searchbar
+      color="light"
+      [debounce]="1000"
+      (ionInput)="handleInput($event)"
+    ></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button routerLink="../landing/feed" routerDirection="forward">
+        <ion-icon
+          class="backbtn"
+          color="dark"
+          size="large"
+          name="close-circle-Outline"
+        ></ion-icon>
+      </ion-button>
+      <ion-button
+        class="filter"
+        id="open-action-sheet"
+        size="auto"
+        id="present-alert"
+      >
+        <ion-icon class="iconfilter" name="filter-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-alert
+      trigger="present-alert"
+      header="Filter by"
+      [buttons]="buttons"
+      [inputs]="inputs"
+      (ionAlertDidDismiss)="handleAlertDismiss($event)"
+    ></ion-alert>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment value="people">
-      <ion-segment-button value="people">
-        <ion-label>people</ion-label>
-      </ion-segment-button>
+    <ion-segment value="post" (ionChange)="changeSegment($event)">
       <ion-segment-button value="post">
         <ion-label>post</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="people">
+        <ion-label>people</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
+  <div *ngIf="currentSegment == 'post'">
+    <ion-card *ngFor="let publication of Publications">
+      <ion-card-header (click)="goToPublication(publication._id)">
+        <ion-row class="wrapper">
+          <ion-col size="2">
+            <ion-avatar>
+              <img
+                class="avatar"
+                alt="Silhouette of a person's head"
+                [src]="publication.owner.profilePicture"
+              />
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="10">
+            <ion-row class="info">
+              <ion-col size="12">
+                <span class="name">{{publication.owner.name}}</span>
+                <span class="handle">{{publication.owner.username}}</span>
+                <span>
+                  Created at: {{publication.createdAt | date:"short"}}</span
+                >
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-card-title>{{publication.title}}</ion-card-title>
+        <ion-card-content>{{publication.content}}</ion-card-content>
+      </ion-card-content>
+      <ion-card-content *ngIf="publication.images">
+        <!-- <swiper-container class="imgpost" *ngIf="Publication.images">
+          <swiper-slide *ngFor="let image of Publication.images">
+            <img [src]="image" alt="" />
+          </swiper-slide>
+        </swiper-container> -->
+        <img [src]="publication.images[0]" alt="" />
+      </ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              fill="clear"
+              (click)="giveLike(publication._id, this.token, publication)"
+            >
+              <ion-icon
+                *ngIf="publication.isLiked; else notLikedIcon"
+                name="heart"
+              ></ion-icon>
+              <ng-template #notLikedIcon>
+                <ion-icon name="heart-outline"></ion-icon>
+              </ng-template>
+              <span id="likes">{{publication.likes}}</span>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button fill="clear">
+              <ion-icon class="action" name="chatbubble-outline"></ion-icon>
+              <span>{{publication.comments}}</span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
+  <div *ngIf="currentSegment == 'people'">
+    <ion-item *ngFor="let user of AllUsers" (click)="goToProfile(user?._id)">
+      <ion-avatar slot="start">
+        <img class="avatar_user" [src]="user.profilePicture" alt="avatar" />
+      </ion-avatar>
+      <ion-label>{{user.name}}</ion-label>
+      <span>{{'@' + user.username}}</span>
+    </ion-item>
+  </div>
+
+  <!-- <ion-list>
     <ion-item *ngFor="let result of results">
       <ion-avatar slot="start">
         <img src="https://picsum.photos/80/80?random=2" alt="avatar" />
       </ion-avatar>
       <ion-label>{{ result }}</ion-label>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 </ion-content>

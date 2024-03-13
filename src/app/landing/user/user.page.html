@@ -39,9 +39,7 @@
     <ion-card-content> {{userInfo.name}}</ion-card-content>
     <ion-card-content> {{userInfo.lastname}}</ion-card-content>
   </ion-card>
-  <ion-button color="dark" expand="block" shape="round"
-    >Send friend request</ion-button
-  >
+
   <ion-segment
     [scrollable]="true"
     value="post"
@@ -57,7 +55,7 @@
 
   <div *ngIf="currentSegment === 'post'">
     <ion-card *ngFor="let publication of userPosts">
-      <ion-card-header>
+      <ion-card-header (click)="goToPublication(publication._id)">
         <ion-row class="wrapper">
           <ion-col size="2">
             <ion-avatar>
@@ -120,7 +118,7 @@
         />
       </ion-avatar>
       <ion-label>{{friend.myFriend.name}}</ion-label>
-      <ion-button fill="clear" (click)="deleteFriend(friend._id)">
+      <ion-button fill="clear" (click)="deleteFriend(friend.myFriend._id)">
         <ion-icon
           color="warning"
           size="large"
@@ -223,7 +221,8 @@
           class="delete_count"
           expand="block"
           shape="round"
-          >DELETE COUNT</ion-button
+          (click)="deleteAccount()"
+          >DELETE ACCOUNT</ion-button
         >
       </ion-content>
     </ng-template>
